@@ -5,3 +5,5 @@
 import numpy as np
 arr=np.arange(2,22,2)
 print(arr)
+
+

@@ -1,5 +1,7 @@
 # NumPy Basics Notes
 
+> Each example below also includes the expected output for better understanding.
+
 ## Importing NumPy
 
 ```python
@@ -27,6 +29,12 @@ import numpy as np
 
 arr_1d = np.array([15, 20, 30, 40])
 print(arr_1d)
+```
+
+### Output
+
+```python
+[15 20 30 40]
 ```
 
 ### Description
@@ -57,6 +65,14 @@ arr_2d = np.array([
 print(arr_2d)
 ```
 
+### Output
+
+```python
+[[1 2 3]
+ [2 3 4]
+ [4 5 6]]
+```
+
 ### Description
 
 A 2D array stores data in rows and columns like a matrix.
@@ -82,6 +98,12 @@ zeroes_array = np.zeros(3)
 print(zeroes_array)
 ```
 
+### Output
+
+```python
+[0. 0. 0.]
+```
+
 ### Description
 
 Creates an array filled with `0` values.
@@ -105,6 +127,13 @@ ones_array = np.ones((2, 3))
 print(ones_array)
 ```
 
+### Output
+
+```python
+[[1. 1. 1.]
+ [1. 1. 1.]]
+```
+
 ### Description
 
 Creates an array filled with `1` values.
@@ -126,6 +155,14 @@ import numpy as np
 
 array = np.full((3, 2), 7)
 print(array)
+```
+
+### Output
+
+```python
+[[7 7]
+ [7 7]
+ [7 7]]
 ```
 
 ### Description
@@ -153,6 +190,12 @@ arr = np.arange(2, 22, 2)
 print(arr)
 ```
 
+### Output
+
+```python
+[ 2  4  6  8 10 12 14 16 18 20]
+```
+
 ### Description
 
 Works similarly to Python's `range()` function and creates numbers in a sequence.
@@ -178,6 +221,15 @@ identity_matrix = np.eye(4)
 print(identity_matrix)
 ```
 
+### Output
+
+```python
+[[1. 0. 0. 0.]
+ [0. 1. 0. 0.]
+ [0. 0. 1. 0.]
+ [0. 0. 0. 1.]]
+```
+
 ### Description
 
 Creates an identity matrix where diagonal elements are `1` and others are `0`.
@@ -197,6 +249,13 @@ matrix = np.array([
 ])
 
 print(matrix)
+```
+
+### Output
+
+```python
+[[ 2  4  5]
+ [ 8 10 12]]
 ```
 
 ### Description

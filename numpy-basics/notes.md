@@ -281,6 +281,17 @@ print(np.std(arr))
 print(np.var(arr))
 ```
 
+### Output
+
+```python
+550
+55.0
+10
+100
+28.722813232690143
+825.0
+```
+
 ## Common Aggregation Functions
 
 | Function    | Description                |
@@ -317,6 +328,12 @@ arr_2d = np.array([
 print(arr_2d.shape)
 ```
 
+### Output
+
+```python
+(2, 3)
+```
+
 ### Description
 
 Returns the number of rows and columns.
@@ -335,6 +352,12 @@ array.size
 
 ```python
 print(arr_2d.size)
+```
+
+### Output
+
+```python
+6
 ```
 
 ### Description
@@ -363,6 +386,13 @@ print(arr1.ndim)
 print(arr2.ndim)
 ```
 
+### Output
+
+```python
+1
+2
+```
+
 ### Description
 
 Returns the number of dimensions of the array.
@@ -384,6 +414,12 @@ import numpy as np
 
 arr = np.array([10, 23.3])
 print(arr.dtype)
+```
+
+### Output
+
+```python
+float64
 ```
 
 ### Description
@@ -411,6 +447,12 @@ int_arr = arr.astype(int)
 print(int_arr)
 ```
 
+### Output
+
+```python
+[1 4 6]
+```
+
 ### Description
 
 Converts array elements into another datatype.
@@ -429,6 +471,14 @@ arr = np.array([10,20,30,40])
 print(arr + 5)
 print(arr * 5)
 print(arr / 5)
+```
+
+### Output
+
+```python
+[15 25 35 45]
+[ 50 100 150 200]
+[2. 4. 6. 8.]
 ```
 
 ### Description

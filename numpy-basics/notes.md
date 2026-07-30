@@ -720,3 +720,146 @@ arr[arr != 21]     # Elements not equal to 21
 | Filter Even Numbers | `arr[arr % 2 == 0]` |
 
 ```
+
+---
+
+# Reshaping Arrays
+
+Reshaping changes the dimensions (shape) of an array **without changing its data**.
+
+For example:
+- **1D → 2D**
+- **2D → 3D**
+- **3D → 1D**, etc.
+
+A reshape is only possible if the **total number of elements remains the same**.
+
+> **Formula:**  
+> Total Elements = Product of Dimensions
+
+For example:
+- `(6,) → (2,3)` ✅ because `6 = 2 × 3`
+- `(6,) → (3,2)` ✅ because `6 = 3 × 2`
+- `(6,) → (4,2)` ❌ because `8 ≠ 6`
+
+### Syntax
+
+```python
+array.reshape(rows, columns)
+```
+
+### Example
+
+```python
+import numpy as np
+
+arr = np.array([23, 34, 45, 56, 67, 78])
+
+arr = arr.reshape((2, 3))
+
+print(arr)
+```
+
+### Output
+
+```python
+[[23 34 45]
+ [56 67 78]]
+```
+
+### Description
+
+- Reshape changes only the structure of the array.
+- The data remains in the same order.
+- `reshape()` usually returns a **view** of the original array rather than creating a copy.
+- Since it returns a view, modifying the reshaped array may also affect the original array.
+
+---
+
+# Flattening Arrays
+
+Flattening converts a multi-dimensional array into a one-dimensional array.
+
+NumPy provides two common methods:
+
+- `.ravel()` → Returns a **view** (shares memory with the original array whenever possible).
+- `.flatten()` → Returns a **copy** (independent of the original array).
+
+### Syntax
+
+```python
+array.ravel()
+
+array.flatten()
+```
+
+### Example
+
+```python
+import numpy as np
+
+arr_2d = np.array([
+    [1, 2, 3],
+    [23, 5, 67]
+])
+
+print(arr_2d.ravel())
+print(arr_2d.flatten())
+```
+
+### Output
+
+```python
+[ 1  2  3 23  5 67]
+[ 1  2  3 23  5 67]
+```
+
+### Description
+
+Although both methods produce the same output, they behave differently:
+
+| Method | Returns | Memory Usage |
+|---------|----------|--------------|
+| `.ravel()` | View | Shares memory with the original array |
+| `.flatten()` | Copy | Creates a new independent array |
+
+### Example of the Difference
+
+```python
+import numpy as np
+
+arr = np.array([[1, 2], [3, 4]])
+
+view = arr.ravel()
+copy = arr.flatten()
+
+view[0] = 100
+
+print(arr)
+print(copy)
+```
+
+### Output
+
+```python
+[[100   2]
+ [  3   4]]
+
+[1 2 3 4]
+```
+
+### Explanation
+
+- Changing `view` also changes the original array because it shares the same memory.
+- Changing `copy` does **not** affect the original array because it is a separate copy.
+
+---
+
+## Quick Summary
+
+| Concept | Syntax |
+|---------|--------|
+| Reshape Array | `arr.reshape(rows, columns)` |
+| Flatten (View) | `arr.ravel()` |
+| Flatten (Copy) | `arr.flatten()` |
+| Total Elements Must Match | `rows × columns = original size` |

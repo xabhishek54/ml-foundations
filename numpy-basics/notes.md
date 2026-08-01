@@ -719,7 +719,6 @@ arr[arr != 21]     # Elements not equal to 21
 | Boolean Masking | `arr[arr > value]` |
 | Filter Even Numbers | `arr[arr % 2 == 0]` |
 
-```
 
 ---
 
@@ -863,3 +862,460 @@ print(copy)
 | Flatten (View) | `arr.ravel()` |
 | Flatten (Copy) | `arr.flatten()` |
 | Total Elements Must Match | `rows × columns = original size` |
+
+
+---
+
+# Array Manipulation
+
+Unlike Python lists, **NumPy arrays have a fixed size after they are created**. Therefore, operations such as inserting, appending, or deleting elements **do not modify the original array**. Instead, they return a **new array** containing the changes.
+
+---
+
+# Inserting Elements
+
+`np.insert()` inserts one or more values at a specified position and returns a new array.
+
+### Syntax
+
+```python
+np.insert(array, index, values, axis=None)
+```
+
+### Parameters
+
+- **array** → Original array
+- **index** → Position where the value(s) should be inserted
+- **values** → Value(s) to insert
+- **axis**
+  - `None` (default): Flattens the array before inserting
+  - `0`: Insert row(s)
+  - `1`: Insert column(s)
+
+---
+
+## Insert into a 1D Array
+
+### Example
+
+```python
+import numpy as np
+
+arr = np.array([10, 20, 30, 40, 50])
+
+new_arr = np.insert(arr, 2, 25)
+
+print(arr)
+print(new_arr)
+```
+
+### Output
+
+```python
+[10 20 30 40 50]
+[10 20 25 30 40 50]
+```
+
+### Description
+
+The value `25` is inserted at index `2`. The original array remains unchanged because `np.insert()` returns a new array.
+
+---
+
+## Insert into a 2D Array
+
+### Example
+
+```python
+import numpy as np
+
+arr_2d = np.array([
+    [1, 2, 3, 4, 5],
+    [10, 20, 30, 40, 50]
+])
+
+# Insert a row
+new_row = np.insert(arr_2d, 1, [5, 15, 25, 35, 45], axis=0)
+
+# Insert a column
+new_column = np.insert(arr_2d, 3, [5, 15], axis=1)
+
+print(new_row)
+print(new_column)
+```
+
+### Output
+
+```python
+[[ 1  2  3  4  5]
+ [ 5 15 25 35 45]
+ [10 20 30 40 50]]
+
+[[ 1  2  3  5  4  5]
+ [10 20 30 15 40 50]]
+```
+
+### Description
+
+- `axis=0` inserts **rows**.
+- `axis=1` inserts **columns**.
+- `axis=None` (default) first flattens the array into one dimension before inserting.
+
+---
+
+# Appending Elements
+
+`np.append()` adds one or more values to the end of an array and returns a new array.
+
+### Syntax
+
+```python
+np.append(array, values, axis=None)
+```
+
+### Example
+
+```python
+import numpy as np
+
+arr = np.array([10, 20, 30, 40])
+
+new_arr = np.append(arr, [50, 60])
+
+print(arr)
+print(new_arr)
+```
+
+### Output
+
+```python
+[10 20 30 40]
+[10 20 30 40 50 60]
+```
+
+### Description
+
+The values are added to the end of the array. The original array remains unchanged.
+
+### Important Note
+
+For multidimensional arrays, `axis=None` is the default, so NumPy first **flattens** the array before appending.
+
+Example:
+
+```python
+import numpy as np
+
+arr = np.array([
+    [1, 2],
+    [3, 4]
+])
+
+print(np.append(arr, [5, 6]))
+```
+
+### Output
+
+```python
+[1 2 3 4 5 6]
+```
+
+To append a **new row** instead:
+
+```python
+np.append(arr, [[5, 6]], axis=0)
+```
+
+---
+
+# Concatenating Arrays
+
+Concatenation joins two or more existing arrays into a single array.
+
+### Syntax
+
+```python
+np.concatenate((array1, array2), axis=0)
+```
+
+### Axis
+
+- `axis=0` → Join vertically (row-wise)
+- `axis=1` → Join horizontally (column-wise)
+
+For one-dimensional arrays, the axis can usually be omitted.
+
+### Example
+
+```python
+import numpy as np
+
+arr1 = np.array([1,2,3,4,5])
+arr2 = np.array([9,8,7,6])
+
+new_arr = np.concatenate((arr1, arr2))
+
+print(new_arr)
+```
+
+### Output
+
+```python
+[1 2 3 4 5 9 8 7 6]
+```
+
+### Description
+
+All elements of the second array are placed after the first array.
+
+### Requirement
+
+All arrays must have the **same shape except along the concatenation axis**. Otherwise, NumPy raises a `ValueError`.
+
+Example:
+
+```python
+a = np.array([[1,2]])
+b = np.array([[3,4]])
+
+np.concatenate((a, b), axis=0)
+```
+
+This works because both arrays have the same number of columns.
+
+---
+
+# Deleting Elements
+
+`np.delete()` removes elements from an array and returns a new array.
+
+### Syntax
+
+```python
+np.delete(array, index, axis=None)
+```
+
+### Parameters
+
+- `axis=None` → Deletes after flattening the array
+- `axis=0` → Delete row(s)
+- `axis=1` → Delete column(s)
+
+---
+
+## Delete from a 1D Array
+
+### Example
+
+```python
+import numpy as np
+
+arr = np.array([1,2,3,4,5])
+
+new_arr = np.delete(arr, (3,4))
+
+print(arr)
+print(new_arr)
+```
+
+### Output
+
+```python
+[1 2 3 4 5]
+[1 2 3]
+```
+
+### Description
+
+Elements at indices `3` and `4` are removed.
+
+---
+
+## Delete from a 2D Array
+
+### Example
+
+```python
+import numpy as np
+
+arr = np.array([
+    [1,2,3],
+    [4,5,6]
+])
+
+delete_row = np.delete(arr, 0, axis=0)
+delete_column = np.delete(arr, 2, axis=1)
+
+print(delete_row)
+print(delete_column)
+```
+
+### Output
+
+```python
+[[4 5 6]]
+
+[[1 2]
+ [4 5]]
+```
+
+### Description
+
+- `axis=0` removes rows.
+- `axis=1` removes columns.
+
+---
+
+# Stacking Arrays
+
+Stacking combines arrays either vertically or horizontally.
+
+---
+
+## Vertical Stack
+
+### Syntax
+
+```python
+np.vstack((array1, array2))
+```
+
+### Example
+
+```python
+import numpy as np
+
+arr1 = np.array([1,2,3])
+arr2 = np.array([4,5,6])
+
+print(np.vstack((arr1, arr2)))
+```
+
+### Output
+
+```python
+[[1 2 3]
+ [4 5 6]]
+```
+
+### Description
+
+Stacks arrays one **below another** (row-wise).
+
+---
+
+## Horizontal Stack
+
+### Syntax
+
+```python
+np.hstack((array1, array2))
+```
+
+### Example
+
+```python
+import numpy as np
+
+arr1 = np.array([1,2,3])
+arr2 = np.array([4,5,6])
+
+print(np.hstack((arr1, arr2)))
+```
+
+### Output
+
+```python
+[1 2 3 4 5 6]
+```
+
+### Description
+
+Stacks arrays side by side (column-wise for multidimensional arrays).
+
+### Requirements
+
+- `np.vstack()` requires arrays to have the **same number of columns**.
+- `np.hstack()` requires arrays to have the **same number of rows** (for 2D arrays).
+
+If these conditions are not satisfied, NumPy raises a **ValueError**.
+
+---
+
+# Splitting Arrays
+
+Splitting divides an array into multiple smaller arrays.
+
+### Syntax
+
+```python
+np.split(array, sections)
+```
+
+### Example
+
+```python
+import numpy as np
+
+arr = np.array([10,20,30,50,60,70])
+
+print(np.split(arr, 3))
+```
+
+### Output
+
+```python
+[array([10, 20]), array([30, 50]), array([60, 70])]
+```
+
+### Description
+
+`np.split()` divides an array into equal-sized parts and returns a **list of NumPy arrays**.
+
+> **Note:** The total number of elements must be evenly divisible by the number of sections. Otherwise, NumPy raises a **ValueError**.
+
+---
+
+# Horizontal and Vertical Splitting
+
+NumPy provides dedicated functions for splitting 2D arrays.
+
+| Function | Purpose |
+|----------|---------|
+| `np.hsplit()` | Splits an array column-wise |
+| `np.vsplit()` | Splits an array row-wise |
+
+These functions are mainly used with multidimensional arrays.
+
+---
+
+# Choosing the Right Function
+
+| Function | Use When |
+|----------|----------|
+| `np.insert()` | Insert elements at a specific position |
+| `np.append()` | Add elements to the end |
+| `np.concatenate()` | Join existing arrays |
+| `np.vstack()` | Stack arrays vertically |
+| `np.hstack()` | Stack arrays horizontally |
+| `np.delete()` | Remove elements from an array |
+| `np.split()` | Divide an array into equal parts |
+
+---
+
+# Quick Summary
+
+| Operation | Function |
+|-----------|----------|
+| Insert element | `np.insert()` |
+| Append element | `np.append()` |
+| Join arrays | `np.concatenate()` |
+| Delete element | `np.delete()` |
+| Stack vertically | `np.vstack()` |
+| Stack horizontally | `np.hstack()` |
+| Split array | `np.split()` |
+| Horizontal split | `np.hsplit()` |
+| Vertical split | `np.vsplit()` |
+
+> **Key Takeaway:** Since NumPy arrays have a fixed size, operations like **insert**, **append**, and **delete** always create and return a **new array** instead of modifying the original one.
+

@@ -1319,3 +1319,283 @@ These functions are mainly used with multidimensional arrays.
 
 > **Key Takeaway:** Since NumPy arrays have a fixed size, operations like **insert**, **append**, and **delete** always create and return a **new array** instead of modifying the original one.
 
+
+---
+
+# Broadcasting
+
+Broadcasting is a feature in NumPy that allows arithmetic operations between arrays of **different shapes** without explicitly using loops.
+
+Instead of manually iterating through elements, NumPy automatically **expands** the smaller array (or scalar) to match the shape of the larger array whenever possible.
+
+This makes code simpler, faster, and more memory-efficient.
+
+---
+
+## Without Broadcasting
+
+Using normal Python lists, we need a loop to apply an operation to every element.
+
+### Example
+
+```python
+prices = [100, 200, 300, 400]
+discount = 10  # percent
+
+final_prices = []
+
+for price in prices:
+    final_price = price - (price * discount) / 100
+    final_prices.append(final_price)
+
+print(final_prices)
+```
+
+### Output
+
+```python
+[90.0, 180.0, 270.0, 360.0]
+```
+
+---
+
+## Using Broadcasting
+
+### Example
+
+```python
+import numpy as np
+
+prices = np.array([100, 200, 300, 400])
+discount = 10
+
+final_prices = prices - (discount * prices) / 100
+
+print(final_prices)
+```
+
+### Output
+
+```python
+[ 90. 180. 270. 360.]
+```
+
+### Description
+
+The scalar value `10` is automatically applied to every element of the array. No loop is required.
+
+---
+
+# Broadcasting Rules
+
+Broadcasting follows a few simple rules.
+
+## Rule 1: Matching Shapes
+
+Arrays with the same shape can be operated on element by element.
+
+### Example
+
+```python
+import numpy as np
+
+arr1 = np.array([1,2,3])
+arr2 = np.array([4,5,6])
+
+print(arr1 + arr2)
+```
+
+### Output
+
+```python
+[5 7 9]
+```
+
+---
+
+## Rule 2: Scalar Expansion
+
+A single value (scalar) is automatically expanded to every element of the array.
+
+### Example
+
+```python
+import numpy as np
+
+arr = np.array([1,2,3])
+
+print(arr + 10)
+print(arr * 2)
+```
+
+### Output
+
+```python
+[11 12 13]
+[2 4 6]
+```
+
+---
+
+## Rule 3: Compatible Dimensions
+
+A smaller array can be expanded to match a larger array if their dimensions are compatible.
+
+### Example
+
+```python
+import numpy as np
+
+matrix = np.array([
+    [1,2,3],
+    [4,5,6]
+])
+
+vector = np.array([10,20,30])
+
+print(matrix * vector)
+```
+
+### Output
+
+```python
+[[ 10  40  90]
+ [ 40 100 180]]
+```
+
+### Description
+
+The vector is automatically repeated for each row of the matrix before multiplication.
+
+---
+
+## Rule 4: Incompatible Shapes
+
+If NumPy cannot match the shapes according to the broadcasting rules, it raises a **ValueError**.
+
+### Example
+
+```python
+import numpy as np
+
+arr1 = np.array([1,2,3,4])
+arr2 = np.array([1,2])
+
+print(arr1 + arr2)
+```
+
+### Output
+
+```text
+ValueError: operands could not be broadcast together with shapes (4,) (2,)
+```
+
+---
+
+# Vectorization
+
+Vectorization means performing an operation on an **entire NumPy array at once**, instead of processing one element at a time using loops.
+
+NumPy performs these operations internally using optimized C code, making them much faster than Python loops.
+
+---
+
+## Without Vectorization
+
+### Example
+
+```python
+list1 = [1,2,3]
+list2 = [4,5,6]
+
+result = [x + y for x, y in zip(list1, list2)]
+
+print(result)
+```
+
+### Output
+
+```python
+[5, 7, 9]
+```
+
+---
+
+## Using Vectorization
+
+### Example
+
+```python
+import numpy as np
+
+arr1 = np.array([1,2,3])
+arr2 = np.array([4,5,6])
+
+result = arr1 + arr2
+
+print(result)
+```
+
+### Output
+
+```python
+[5 7 9]
+```
+
+---
+
+## Another Example
+
+```python
+import numpy as np
+
+arr = np.array([10,20,30])
+
+print(arr * 3)
+```
+
+### Output
+
+```python
+[30 60 90]
+```
+
+### Description
+
+The multiplication is applied to every element automatically without writing a loop.
+
+---
+
+# Broadcasting vs Vectorization
+
+Although these concepts are related, they are not the same.
+
+| Broadcasting | Vectorization |
+|--------------|---------------|
+| Handles operations between arrays of different compatible shapes. | Performs operations on entire arrays without explicit loops. |
+| Automatically expands smaller arrays when needed. | Uses optimized NumPy functions for high performance. |
+| Example: `arr + 10` or `matrix * vector` | Example: `arr1 + arr2`, `arr * 5` |
+
+> **Note:** Broadcasting is often used together with vectorization. Broadcasting first makes array shapes compatible, and then vectorized operations are applied.
+
+---
+
+# Advantages of Broadcasting and Vectorization
+
+- Eliminates the need for explicit Python loops.
+- Makes code shorter and easier to read.
+- Improves performance significantly.
+- Uses optimized NumPy implementations written in C.
+- Works efficiently even with very large arrays.
+
+---
+
+# Quick Summary
+
+| Concept | Example |
+|----------|---------|
+| Scalar Broadcasting | `arr + 10` |
+| Array Broadcasting | `matrix * vector` |
+| Vectorized Addition | `arr1 + arr2` |
+| Vectorized Multiplication | `arr * 3` |
+| Shape Mismatch | Raises `ValueError` |

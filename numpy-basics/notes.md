@@ -1599,3 +1599,253 @@ Although these concepts are related, they are not the same.
 | Vectorized Addition | `arr1 + arr2` |
 | Vectorized Multiplication | `arr * 3` |
 | Shape Mismatch | Raises `ValueError` |
+
+
+---
+
+# Handling Missing Values
+
+Missing values are values that are **unknown, unavailable, or not recorded** in a dataset.
+
+In NumPy, missing numerical values are represented using **`np.nan`** (Not a Number).
+
+Handling missing values is an important preprocessing step because many mathematical operations and machine learning algorithms cannot work correctly with missing data.
+
+---
+
+# `np.nan`
+
+`np.nan` is a special floating-point value that represents a missing or undefined numerical value.
+
+### Syntax
+
+```python
+np.nan
+```
+
+### Example
+
+```python
+import numpy as np
+
+arr = np.array([1, 2, np.nan, 4, 5, np.nan])
+
+print(arr)
+```
+
+### Output
+
+```python
+[ 1.  2. nan  4.  5. nan]
+```
+
+### Description
+
+Whenever an array contains `np.nan`, NumPy automatically converts the array to a floating-point datatype because `NaN` can only exist in floating-point arrays.
+
+---
+
+# Checking Missing Values
+
+`np.isnan()` checks whether each element of an array is a missing value (`np.nan`).
+
+It returns a Boolean array where:
+
+- `True` → Element is `np.nan`
+- `False` → Element is not `np.nan`
+
+### Syntax
+
+```python
+np.isnan(array)
+```
+
+### Example
+
+```python
+import numpy as np
+
+arr = np.array([1, 2, np.nan, 4, 5, np.nan])
+
+print(np.isnan(arr))
+```
+
+### Output
+
+```python
+[False False  True False False  True]
+```
+
+### Description
+
+This function is commonly used to identify missing values before cleaning or replacing them.
+
+---
+
+# Why Can't We Compare `np.nan`?
+
+One of the most common interview questions is:
+
+> **Why does `np.nan == np.nan` return `False`?**
+
+### Example
+
+```python
+import numpy as np
+
+print(np.nan == np.nan)
+```
+
+### Output
+
+```python
+False
+```
+
+### Explanation
+
+According to the **IEEE 754 floating-point standard**, `NaN` is considered **not equal to any value**, including itself.
+
+Therefore, **never use `==` to check for missing values**.
+
+✅ Correct way:
+
+```python
+np.isnan(value)
+```
+
+---
+
+# Replacing Missing Values
+
+`np.nan_to_num()` replaces `np.nan` values with a specified number.
+
+### Syntax
+
+```python
+np.nan_to_num(array, nan=value)
+```
+
+### Example
+
+```python
+import numpy as np
+
+arr = np.array([1, 2, np.nan, 4, 5, np.nan])
+
+cleaned_arr = np.nan_to_num(arr, nan=2)
+
+print(cleaned_arr)
+```
+
+### Output
+
+```python
+[1. 2. 2. 4. 5. 2.]
+```
+
+### Description
+
+All missing values (`np.nan`) are replaced with `2`.
+
+> **Note:** If `nan` is not specified, NumPy replaces missing values with `0`.
+
+---
+
+# Infinite Values
+
+Apart from missing values, NumPy also supports **positive** and **negative infinity**.
+
+- `np.inf` → Positive infinity
+- `-np.inf` → Negative infinity
+
+These values may occur due to operations like:
+
+- Division by zero
+- Arithmetic overflow (e.g., numbers larger than the maximum representable value)
+
+---
+
+# Checking Infinite Values
+
+`np.isinf()` checks whether each element is positive or negative infinity.
+
+### Syntax
+
+```python
+np.isinf(array)
+```
+
+### Example
+
+```python
+import numpy as np
+
+arr = np.array([1, 2, np.inf, 4, -np.inf, 6])
+
+print(np.isinf(arr))
+```
+
+### Output
+
+```python
+[False False  True False  True False]
+```
+
+### Description
+
+Returns `True` wherever an element is either `np.inf` or `-np.inf`.
+
+---
+
+# Replacing Infinite Values
+
+`np.nan_to_num()` can also replace infinite values.
+
+### Syntax
+
+```python
+np.nan_to_num(array, posinf=value, neginf=value)
+```
+
+### Example
+
+```python
+import numpy as np
+
+arr = np.array([1, 2, np.inf, 4, -np.inf, 6])
+
+cleaned_arr = np.nan_to_num(
+    arr,
+    posinf=999,
+    neginf=-999
+)
+
+print(cleaned_arr)
+```
+
+### Output
+
+```python
+[   1.    2.  999.    4. -999.    6.]
+```
+
+### Description
+
+- Positive infinity (`np.inf`) is replaced with `999`.
+- Negative infinity (`-np.inf`) is replaced with `-999`.
+
+---
+
+# Quick Summary
+
+| Function | Purpose |
+|----------|---------|
+| `np.nan` | Represents a missing value |
+| `np.isnan()` | Checks for missing values |
+| `np.nan_to_num()` | Replaces `np.nan` with a specified value |
+| `np.inf` | Represents positive infinity |
+| `-np.inf` | Represents negative infinity |
+| `np.isinf()` | Checks for infinite values |
+
+> **Interview Tip:** `np.nan == np.nan` returns **False** because, according to the IEEE 754 standard, **NaN is not equal to any value, including itself**. Always use `np.isnan()` to check for missing values.

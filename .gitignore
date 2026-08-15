@@ -1,2 +1,13 @@
-pandas/data/survey_results_public.csv
-pandas/data/
+# Virtual environment
+.venv/
+
+# Ignore everything in datasets...
+datasets/*
+
+# ...except the .gitkeep file
+!datasets/.gitkeep
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/datasets
